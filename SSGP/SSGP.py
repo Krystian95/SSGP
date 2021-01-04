@@ -21,6 +21,9 @@ class SSGP(object):
     X_train, y_train = None, None
     X_valid, y_valid = None, None
     X_scaler, y_scaler = None, None
+
+    # ADDED [!]
+    nmse, mnlp = None, None
     
     def __init__(self, m=-1, freq_noisy=True):
         self.m = m
@@ -210,6 +213,7 @@ class SSGP(object):
         trainer.train()
         
     def predict(self, X_test, y_test=None):
+        #print("[SSPG - predict ***]")
         X, _ = self.transform(X_test)
         PhiS = X.dot(self.S.T)
         cosX = np.cos(PhiS)
@@ -230,6 +234,7 @@ class SSGP(object):
         return self.mse, self.nmse, self.mnlp
     
     def save(self, path):
+        #print("[SSGP - save ***]")
         prior_settings = (self.m, self.freq_noisy, self.hashed_name)
         raw_data = (self.n, self.d, self.X_scaler, self.y_scaler)
         hyper_params = (self.y_noise, self.sigma, self.lengthscales, self.S)
